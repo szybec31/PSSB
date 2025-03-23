@@ -59,8 +59,6 @@ def delta_R(h_tx, h_rx, r):
         print(x, r)
         x = 1
 
-
-
     psi_g = np.asin(x)
 
     deltaR = 4 * R1 * R2 * (np.sin(psi_g)**2) / (R1 + R2 + Rd)

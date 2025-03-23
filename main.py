@@ -6,7 +6,7 @@ f = 100 #float(input("Podaj częstotliwość sygnału f [MHz]: "))
 h_tx = 35#float(input("Wysokość anteny nadawczej h_tx [m]: "))
 h_rx = 500#float(input("Wysokość anteny odbiorczej 'Drona' h_tx [m]: "))
 r = 10000#float(input("Podaj odległość między nadajnikiem a odbiornikiem r [m]: "))
-
+#img_name = input("Podaj nazwe pliku: ")
 
 #x = np.linspace(0, k, int(r))
 x = np.linspace(0, r, r)
@@ -25,7 +25,7 @@ plt.plot(x,y)
 plt.title('')
 plt.xlabel('Odległość r [m]')
 plt.ylabel('F')
-#plt.savefig('img/w 1000m.png')
+#plt.savefig('img/{}1.png'.format(img_name))
 
 
 y2 = double_F_FSL(y,x,f)
@@ -36,5 +36,5 @@ plt.plot(x,y2)
 plt.title('')
 plt.xlabel('Odległość r [m]')
 plt.ylabel('F^2 * FSL')
-
+#plt.savefig('img/{}2.png'.format(img_name))
 plt.show()
