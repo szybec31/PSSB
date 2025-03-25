@@ -3,16 +3,33 @@ import numpy as np
 import cmath
 
 
+# epsilon_r, mi_r To są wartości względne
 
 def reflection(epsilon_r, sigma, f, theta):
-    epsilon0 = 8.854*pow(10,-12)
-    complex_permittivity = epsilon_r * np.exp(-1j *sigma/(epsilon0*2*cmath.pi*f))
+    theta = np.pi/2 - theta
+    mi_r = 1
+    epsilon0 = 8.854e-12     # przenikalność elektryczna próżni
+    mi0 = 4 * cmath.pi * 1e-7    # przenikalność magnetyczna próżni
+    n0 = 377 # impedancja falowa próżni
+
+    omega = 2 * cmath.pi * (f * 1e6)   # pulsacja
+    eps = epsilon0 * epsilon_r           # przenikalność elektryczna Ziemi
+    mi = mi0 * mi_r                    # prenikalność magnetyczne Ziemi
+
+    n1 = cmath.sqrt((1j*omega*mi)/(sigma + 1j * omega * eps))
+    theta_t = np.asin(np.sqrt(1/(mi_r*epsilon_r))*np.sin(theta))
+
+    wsp_odb = (n1*np.cos(theta_t)-n0*np.cos(theta))/(n1*np.cos(theta_t)+n0*np.cos(theta))
+    print(abs(wsp_odb))
+
+    return wsp_odb
 
 
 def FSL(f,d):
     if d == 0:
         return 0
-    res = -27.55+20*log10(f)+20*log10(d)
+    res = -27.55+20*np.log10(f)+20*np.log10(d)
+    #print(res)
     return res
 
 
@@ -53,34 +70,38 @@ def delta_R(h_tx, h_rx, r):
     #print(x)
 
     if x < -1:
-        print(x, r)
+        #print(x, r)
         x = -1
     if x > 1:
-        print(x, r)
+        #print(x, r)
         x = 1
 
     psi_g = np.asin(x)
-
     deltaR = 4 * R1 * R2 * (np.sin(psi_g)**2) / (R1 + R2 + Rd)
-    return deltaR
+    return deltaR,psi_g,Rd
 
-def Val_F(f,h_tx, h_rx, r):
+def Val_F(f,h_tx, h_rx, r,flag,epsilon_r,sigma):
     lamb = 300 / f
     #print(r)
-    deltaR = delta_R(h_tx, h_rx, r)
+    deltaR, psi_g, Rd = delta_R(h_tx, h_rx, r)
 
     deltaFI = 2 * cmath.pi / (lamb * deltaR)
-    print(deltaR,deltaFI)
+    #print(deltaR,deltaFI)
 
-    F = abs(1 - np.exp(1j * deltaFI))
-    #print(F)
-    return F
+    if flag == 1:
+        F = abs(1 - np.exp(1j * deltaFI))
+    elif flag == 2:
+        wsp = reflection(epsilon_r, sigma, f, psi_g)
+        print(wsp)
+        F = abs(1 + wsp * np.exp(1j * deltaFI))
+    return F, Rd
 
-def double_F_FSL(y,x,f):
-    fsl = np.array([FSL(f,e) for e in x])
+def double_F_FSL(y,Rd,f):
+    fsl = np.array([FSL(f,e) for e in Rd])
     ww_fsl = np.array([pow(10,x/10) for x in fsl])
     f_double = np.pow(y, 2)
 
     result = ww_fsl * f_double
-
-    return result
+    result = 10*np.log10(result)
+    print(result)
+    return result, fsl
