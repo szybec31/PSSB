@@ -17,9 +17,15 @@ przewodzącej i o właściwościach typowego gruntu.
 ## Dane wejściowe:
 - Częstotliwość f [MHz]
 - Wysokość anteny nadawczej h_tx [m]
-- Wysokość anteny odbiorczej - drona h_rx [m] - max do 1 km
-- Odległość między nadajnikiem a odbiornikiem [m] - max do 10 km
+- Wysokość anteny odbiorczej - drona h_rx [m] 
+- Odległość między nadajnikiem a odbiornikiem [m] - do 10 km
 
 ## Dane Wyjściowe:
 
-- Straty propagacyjne modelu F
+- Współczynnik propagacyji F
+
+![Schemat](img/chart1.png)
+
+- straty propagacyjne dla obu modeli
+
+![Schemat](img/chart2.png)
