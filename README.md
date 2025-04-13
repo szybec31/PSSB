@@ -12,7 +12,7 @@ przewodzącej i o właściwościach typowego gruntu.
 
 ## Schemat poglądowy:
 
-![Schemat](img/Schemat.png)
+![Schemat](Schemat.png)
 
 ## Dane wejściowe:
 - Częstotliwość f [MHz]
@@ -24,8 +24,8 @@ przewodzącej i o właściwościach typowego gruntu.
 
 - Współczynnik propagacyji F
 
-![Schemat](img/chart1.png)
+![Schemat](wykres1_wsp.png)
 
 - straty propagacyjne dla obu modeli
 
-![Schemat](img/chart2.png)
+![Schemat](wykres2_straty.png)
