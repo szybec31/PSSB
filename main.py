@@ -2,19 +2,21 @@ from Functions import *
 import numpy as np
 import matplotlib.pyplot as plt
 import cmath
-f = 500 #float(input("Podaj częstotliwość sygnału f [MHz]: "))
-h_tx = 55#float(input("Wysokość anteny nadawczej h_tx [m]: "))
-h_rx = 500#float(input("Wysokość anteny odbiorczej 'Drona' h_tx [m]: "))
-r = 10000#float(input("Podaj odległość między nadajnikiem a odbiornikiem r [m]: "))
+print("Szymon Bęczkowski 273179 - Temat 5.")
+print("Model dwupromieniowy dla kulisej Ziemi")
+f = float(input("Podaj częstotliwość sygnału f [MHz]: "))                       # 500 MHz
+h_tx = float(input("Wysokość anteny nadawczej h_tx [m]: "))                     # 55 m
+h_rx = float(input("Wysokość anteny odbiorczej 'Drona' h_tx [m]: "))            # 500 m
+r = int(input("Podaj odległość między nadajnikiem a odbiornikiem r [m]: "))     # 10000 m
 flag = int(input("Czy pomiar wykonac dla idealnej {1}, czy dla zwyklej ziemi {2}?: "))
 
 epsilon_r = 0
 sigma = 0
 
 if flag == 2:
-    print("Podaj parametry gruntu")
-    epsilon_r = float(input("Podaj epsilon_r: "))
-    sigma = float(input("Podaj sigma: "))
+    print("Podaj parametry gruntu:")
+    epsilon_r = float(input("Podaj epsilon_r [F/m]: "))       # 15
+    sigma = float(input("Podaj sigma [S/m]: "))               # 0.01
 
 
 #x = np.linspace(0, k, int(r))
@@ -31,24 +33,24 @@ print(y)
 
 plt.figure(figsize=(12,6))
 plt.plot(x,y)
-plt.title('F(d)')
+plt.title('Wartość współczynnika propagacji F w zależności od odległości r')
 plt.xlabel('Odległość r [m]')
 plt.ylabel('Współczynnik propagacji F')
 plt.grid()
-plt.savefig('img/chart1.png')
+plt.savefig('wykres1_wsp.png')
 
 
 y2, fsl = double_F_FSL(y,Rd,f)
-y2 = np.abs(y2)
+#y2 = np.abs(y2)
 plt.figure(1)
 plt.figure(figsize=(12,6))
 plt.plot(x,y2,label = "Two-ray model")
-plt.plot(x,fsl, label = "Free space model")
+plt.plot(x,-fsl, label = "Free space model")
 plt.title('Porównanie modeli propagacyjnych')
 plt.xlabel('Odległość r [m]')
-plt.ylabel('Straty propagacyjne [dB]')
+plt.ylabel('Poziom Sygnału [dB]')
 plt.legend()
 plt.grid()
-plt.savefig('img/chart2.png')
+plt.savefig('wykres2_straty.png')
 
 plt.show()

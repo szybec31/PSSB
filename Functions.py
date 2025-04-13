@@ -98,7 +98,7 @@ def Val_F(f,h_tx, h_rx, r,flag,epsilon_r,sigma):
 
 def double_F_FSL(y,Rd,f):
     fsl = np.array([FSL(f,e) for e in Rd])
-    ww_fsl = np.array([pow(10,x/10) for x in fsl])
+    ww_fsl = np.array([pow(10,-x/10) for x in fsl])
     f_double = np.pow(y, 2)
 
     result = ww_fsl * f_double
